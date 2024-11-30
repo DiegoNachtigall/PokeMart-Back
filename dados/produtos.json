@@ -1,0 +1,332 @@
+[
+	{
+		"nome": "Potion",
+		"descricao": "Um medicamento em forma de spray que restaura 20 HP de um Pokémon. É bastante útil para curar ferimentos leves durante as batalhas e exploração.",
+		"preco": 200,
+		"categorias": [
+			"Medicamento"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/potion.png",
+		"marcaId": 1,
+		"estoque": 100
+	},
+	{
+		"nome": "Super Potion",
+		"descricao": "Um spray que restaura 60 HP de um Pokémon. Ideal para recuperar uma quantidade significativa de HP durante batalhas mais longas ou difíceis.",
+		"preco": 700,
+		"categorias": [
+			"Medicamento"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/superpotion.png",
+		"marcaId": 1,
+		"estoque": 100
+	},
+	{
+		"nome": "Hyper Potion",
+		"descricao": "Um spray avançado que restaura 120 HP de um Pokémon. Excelente para curar ferimentos graves e manter o Pokémon em combate.",
+		"preco": 1200,
+		"categorias": [
+			"Medicamento"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/hyperpotion.png",
+		"marcaId": 1,
+		"estoque": 1100
+	},
+	{
+		"nome": "Max Potion",
+		"descricao": "Um spray de alta eficácia que restaura todo o HP de um Pokémon. É extremamente útil em situações críticas para garantir a sobrevivência do Pokémon em batalhas importantes.",
+		"preco": 2500,
+		"categorias": [
+			"Medicamento"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/maxpotion.png",
+		"marcaId": 1,
+		"estoque": 1100
+	},
+	{
+		"nome": "Full Restore",
+		"descricao": "Um spray completo que restaura todo o HP de um Pokémon e cura qualquer condição de status, como paralisia, queimação ou envenenamento. Ideal para situações de emergência.",
+		"preco": 3000,
+		"categorias": [
+			"Medicamento"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/fullrestore.png",
+		"marcaId": 1,
+		"estoque": 1100
+	},
+	{
+		"nome": "Ability Capsule",
+		"descricao": "Um item que permite que um Pokémon altere sua Habilidade atual para outra Habilidade que ele pode ter. É útil para otimizar as habilidades dos Pokémon conforme suas necessidades em batalhas.",
+		"preco": 5000,
+		"categorias": [
+			"Vitamina"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/abilitycapsule.png",
+		"marcaId": 2,
+		"estoque": 1100
+	},
+	{
+		"nome": "Focus Sash",
+		"descricao": "Um item que impede que um Pokémon seja nocauteado em um único golpe se estiver com HP total. O Pokémon segurando o Focus Sash sobreviverá com 1 HP em vez de ser nocauteado, o que permite contra-ataques.",
+		"preco": 2000,
+		"categorias": [
+			"Item_segurar"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/focussash.png",
+		"marcaId": 2,
+		"estoque": 1100
+	},
+	{
+		"nome": "Scope Lens",
+		"descricao": "Um item que aumenta a chance de um Pokémon causar um golpe crítico. É particularmente útil para movimentos que se beneficiam de uma chance maior de críticos para maximizar o dano.",
+		"preco": 2500,
+		"categorias": [
+			"Item_segurar"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/scopelens.png",
+		"marcaId": 2,
+		"estoque": 1100
+	},
+	{
+		"nome": "Choice Band",
+		"descricao": "Um item que aumenta o poder de ataque físico de um Pokémon em 50%, mas limita o Pokémon a usar apenas um movimento durante a batalha. É ideal para estratégias focadas em ataques de alto poder.",
+		"preco": 3000,
+		"categorias": [
+			"Item_segurar"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/choiceband.png",
+		"marcaId": 2,
+		"estoque": 1100
+	},
+	{
+		"nome": "Leftovers",
+		"descricao": "Um item que restaura 1/16 do HP máximo de um Pokémon no final de cada turno. É útil para aumentar a durabilidade do Pokémon durante batalhas prolongadas.",
+		"preco": 5000,
+		"categorias": [
+			"Item_segurar"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/leftovers.png",
+		"marcaId": 3,
+		"estoque": 1100
+	},
+	{
+		"nome": "Cheri Berry",
+		"descricao": "Uma Berry que cura a paralisia de um Pokémon quando ele a segura. É útil para combater status negativos durante batalhas e garantir que o Pokémon continue ativo.",
+		"preco": 1000,
+		"categorias": [
+			"Berry"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/cheriberry.png",
+		"marcaId": 3,
+		"estoque": 1100
+	},
+	{
+		"nome": "Chesto Berry",
+		"descricao": "Uma Berry que cura a condição de sono de um Pokémon quando ele a segura. Permite que o Pokémon recupere a consciência e continue lutando sem precisar de ajuda adicional.",
+		"preco": 1000,
+		"categorias": [
+			"Berry"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/chestoberry.png",
+		"marcaId": 3,
+		"estoque": 1100
+	},
+	{
+		"nome": "Pecha Berry",
+		"descricao": "Uma Berry que cura o envenenamento de um Pokémon quando ele a segura. É útil para neutralizar os efeitos de envenenamento e manter o Pokémon em condições de combate.",
+		"preco": 1000,
+		"categorias": [
+			"Berry"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/pechaberry.png",
+		"marcaId": 3,
+		"estoque": 1100
+	},
+	{
+		"nome": "Rawst Berry",
+		"descricao": "Uma Berry que cura a condição de queimadura de um Pokémon quando ele a segura. Ajuda a restaurar o HP e a reduzir o dano contínuo causado pelas queimaduras.",
+		"preco": 1000,
+		"categorias": [
+			"Berry"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/rawstberry.png",
+		"marcaId": 3,
+		"estoque": 1100
+	},
+	{
+		"nome": "Fire Stone",
+		"descricao": "Uma pedra que faz com que alguns Pokémon, como Vulpix e Growlithe, evoluam quando usada. Ideal para treinadores que possuem Pokémon do tipo Fogo e querem evoluí-los rapidamente.",
+		"preco": 5000,
+		"categorias": [
+			"Evolutivo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/firestone.png",
+		"marcaId": 4,
+		"estoque": 1100
+	},
+	{
+		"nome": "Water Stone",
+		"descricao": "Uma pedra que faz com que Pokémon como Eevee e Shellder evoluam quando usada. Essencial para treinadores com Pokémon do tipo Água que buscam evolução.",
+		"preco": 5000,
+		"categorias": [
+			"Evolutivo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/waterstone.png",
+		"marcaId": 4,
+		"estoque": 1100
+	},
+	{
+		"nome": "Thunder Stone",
+		"descricao": "Uma pedra que faz com que Pokémon como Pikachu e Eelektrik evoluam quando usada. Útil para aqueles que possuem Pokémon do tipo Elétrico e querem acelerar sua evolução.",
+		"preco": 5000,
+		"categorias": [
+			"Evolutivo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/thunderstone.png",
+		"marcaId": 4,
+		"estoque": 1100
+	},
+	{
+		"nome": "Leaf Stone",
+		"descricao": "Uma pedra que faz com que Pokémon como Gloom e Weepinbell evoluam quando usada. Indispensável para treinadores de Pokémon do tipo Planta que desejam realizar evoluções.",
+		"preco": 5000,
+		"categorias": [
+			"Evolutivo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/leafstone.png",
+		"marcaId": 4,
+		"estoque": 1100
+	},
+	{
+		"nome": "Moon Stone",
+		"descricao": "Uma pedra que faz com que Pokémon como Nidorina e Clefairy evoluam quando usada. Ideal para treinadores que querem evoluir seus Pokémon do tipo Fada ou Veneno.",
+		"preco": 5000,
+		"categorias": [
+			"Evolutivo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/moonstone.png",
+		"marcaId": 4,
+		"estoque": 1100
+	},
+	{
+		"nome": "Heart Scale",
+		"descricao": "Uma escama rara que pode ser encontrada no fundo do mar. Pode ser usada para lembrar movimentos esquecidos por um Pokémon. Ideal para treinadores que querem relembrar habilidades importantes de seus Pokémon.",
+		"preco": 3000,
+		"categorias": [
+			"Miscelaneo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/pgl/heartscale.png",
+		"marcaId": 6,
+		"estoque": 1100
+	},
+	{
+		"nome": "Prism Scale",
+		"descricao": "Uma escama que brilha com um brilho colorido. Pode ser usada para evoluir um Feebas em Milotic. Essencial para treinadores que desejam completar sua coleção de Pokémon aquáticos raros.",
+		"preco": 5000,
+		"categorias": [
+			"Evolutivo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/prismscale.png",
+		"marcaId": 6,
+		"estoque": 1100
+	},
+	{
+		"nome": "Deep Sea Tooth",
+		"descricao": "Um dente encontrado em Pokémon que vivem nas profundezas do oceano. Quando equipado por um Clamperl, faz com que ele evolua para Huntail. Indispensável para treinadores focados em Pokémon aquáticos específicos.",
+		"preco": 2000,
+		"categorias": [
+			"Evolutivo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/pgl/deepseatooth.png",
+		"marcaId": 6,
+		"estoque": 1100
+	},
+	{
+		"nome": "Deep Sea Scale",
+		"descricao": "Uma escama encontrada nas profundezas do oceano. Quando equipada por um Clamperl, faz com que ele evolua para Gorebyss. Útil para treinadores que estão focados em completar sua coleção de Pokémon aquáticos.",
+		"preco": 2000,
+		"categorias": [
+			"Evolutivo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/pgl/deepseascale.png",
+		"marcaId": 6,
+		"estoque": 1100
+	},
+	{
+		"nome": "Lumiose Galette",
+		"descricao": "Um delicioso bolo encontrado em Lumiose City. Restaura 50 HP de um Pokémon e aumenta sua felicidade. Ideal para treinadores que querem fazer seus Pokémon se sentirem especiais e também recuperar HP.",
+		"preco": 5000,
+		"categorias": [
+			"Medicamento"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/lumiosegalette.png",
+		"marcaId": 7,
+		"estoque": 1100
+	},
+	{
+		"nome": "Moomoo Milk",
+		"descricao": "Leite fresco de Miltank que restaura 100 HP de um Pokémon. Muito popular entre treinadores para recuperar HP rapidamente durante as batalhas.",
+		"preco": 5000,
+		"categorias": [
+			"Medicamento"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/moomoomilk.png",
+		"marcaId": 7,
+		"estoque": 1100
+	},
+	{
+		"nome": "Fresh Water",
+		"descricao": "Uma garrafa de água fresca que restaura 50 HP de um Pokémon. É uma opção econômica para treinadores que precisam de uma recuperação básica durante as batalhas.",
+		"preco": 500,
+		"categorias": [
+			"Medicamento"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/freshwater.png",
+		"marcaId": 6,
+		"estoque": 1100
+	},
+	{
+		"nome": "Red Nectar",
+		"descricao": "Um néctar vermelho que faz Oricorio mudar para a sua forma Baile. Este néctar é ideal para treinar Oricorio e obter essa forma específica durante a batalha.",
+		"preco": 2000,
+		"categorias": [
+			"Miscelaneo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/rednectar.png",
+		"marcaId": 8,
+		"estoque": 1100
+	},
+	{
+		"nome": "Yellow Nectar",
+		"descricao": "Um néctar amarelo que faz Oricorio mudar para a sua forma Pom-Pom. É um néctar vibrante e energético, ideal para treinar Oricorio e alcançar essa forma durante as batalhas.",
+		"preco": 2000,
+		"categorias": [
+			"Miscelaneo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/yellownectar.png",
+		"marcaId": 8,
+		"estoque": 1100
+	},
+	{
+		"nome": "Pink Nectar",
+		"descricao": "Um néctar rosa que faz Oricorio mudar para a forma Pa'u. Este néctar é doce e floral, permitindo que Oricorio adote essa forma específica quando consumido.",
+		"preco": 2000,
+		"categorias": [
+			"Miscelaneo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/pinknectar.png",
+		"marcaId": 8,
+		"estoque": 1100
+	},
+	{
+		"nome": "Purple Nectar",
+		"descricao": "Um néctar roxo que faz Oricorio mudar para a forma Sensu. Este néctar tem um aroma distinto e é ideal para treinar Oricorio, permitindo que ele adote essa forma durante a batalha.",
+		"preco": 2000,
+		"categorias": [
+			"Miscelaneo"
+		],
+		"fotoPrincipal": "https://www.serebii.net/itemdex/sprites/sv/purplenectar.png",
+		"marcaId": 8,
+		"estoque": 1100
+	}
+]

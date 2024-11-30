@@ -1,0 +1,42 @@
+[
+	{
+		"id": 1,
+		"nome": "No. 1 Pharmacy",
+		"foto": "https://www.serebii.net/swordshield/companies/no.1pharmacy.png"
+	},
+	{
+		"id": 2,
+		"nome": "RKS Laboratories",
+		"foto": "https://www.serebii.net/swordshield/companies/rkslaboratories.png"
+	},
+	{
+		"id": 3,
+		"nome": "Turffield Orchards",
+		"foto": "https://www.serebii.net/swordshield/companies/turffieldorchards.png"
+	},
+	{
+		"id": 4,
+		"nome": "Galar Minerals",
+		"foto": "https://www.serebii.net/swordshield/companies/galarminerals.png"
+	},
+	{
+		"id": 5,
+		"nome": "Gramophone Records",
+		"foto": "https://www.serebii.net/swordshield/companies/gramophonerecords.png"
+	},
+	{
+		"id": 6,
+		"nome": "Wailord Aquaculture",
+		"foto": "https://www.serebii.net/swordshield/companies/wailordaquaculture.png"
+	},
+	{
+		"id": 7,
+		"nome": "Dream Dairy",
+		"foto": "https://www.serebii.net/swordshield/companies/dreamdairy.png"
+	},
+	{
+		"id": 8,
+		"nome": "Rondo Floral",
+		"foto": "https://www.serebii.net/swordshield/companies/rondofloral.png"
+	}
+]
