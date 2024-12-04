@@ -33,7 +33,9 @@ router.get("/", async (req: any, res) => {
 
   const produtos = await prisma.produto.findMany({
     where: { deleted: false },
-    orderBy: { id: "asc" }
+    orderBy: { id: "asc" },
+    include: { marca: true }
+
   });
   res.status(200).json(produtos);
 
