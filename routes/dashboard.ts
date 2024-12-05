@@ -14,6 +14,13 @@ router.get("/compras", async (req: any, res) => {
                 createdAt: true,
                 updatedAt: true,
                 usuarioId: true,
+                usuario: {
+                    select: {
+                        nome: true,
+                        email: true,
+                        imagem: true
+                    }
+                    },
                 produtos: {
                     select: {
                         id: true,
