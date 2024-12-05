@@ -68,7 +68,7 @@ model usuario {
   nome            String     @db.VarChar(60)
   email           String     @unique @db.VarChar(40)
   senha           String     @db.VarChar(60)
-  imagem          String     @default("")
+  imagem          String     @default("https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg")
   createdAt       DateTime   @default(now())
   admin           Boolean    @default(false)
   recuperacao     String?

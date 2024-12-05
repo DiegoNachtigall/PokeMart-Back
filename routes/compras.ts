@@ -10,7 +10,7 @@ async function enviaEmail(nome: string, email: string, descricao: string, respos
 
   const transporter = nodemailer.createTransport({
       host: "sandbox.smtp.mailtrap.io",
-      port: 587,
+      port: 2525,
       secure: false, // true for port 465, false for other ports
       auth: {
           user: "b45e97ef93c232",

@@ -102,10 +102,26 @@ router.post("/", async (req, res) => {
 // Efetua a exclusão de um Usuário
 router.delete("/:id", async (req, res) => {
   const { id } = req.params
+
+  const carrinho1 = await prisma.carrinho.findFirst({
+    where: { usuarioId: id }
+  })
+
   try {
-    const usuario = await prisma.usuario.delete({
-      where: { id: id }
-    })
+    const [usuario, carrinho, produto_carrinho] = await prisma.$transaction([
+      prisma.carrinho_produto.deleteMany({
+        where: { carrinhoId: carrinho1?.id }
+      }),
+      prisma.carrinho.deleteMany({
+        where: { usuarioId: id }
+      }),
+      prisma.log.deleteMany({
+        where: { usuarioId: id }
+      }),
+      prisma.usuario.delete({
+        where: { id: id }
+      }),
+    ])
     res.status(200).json(usuario)
   } catch (error) {
     res.status(400).json(error)
@@ -119,6 +135,20 @@ router.put("/:id", async (req, res) => {
     const usuario = await prisma.usuario.update({
       where: { id: id },
       data: { nome, email, imagem, admin }
+    })
+    res.status(200).json(usuario)
+  } catch (error) {
+    res.status(400).json(error)
+  }
+  
+})
+
+router.put("/admin/:id", async (req, res) => {
+  const { id } = req.params
+  try {
+    const usuario = await prisma.usuario.update({
+      where: { id: id },
+      data: { admin: true }
     })
     res.status(200).json(usuario)
   } catch (error) {
