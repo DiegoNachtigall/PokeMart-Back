@@ -6,6 +6,29 @@ import nodemailer from "nodemailer";
 const prisma = new PrismaClient();
 const router = Router();
 
+async function enviaEmail(nome: string, email: string, descricao: string, resposta: string) {
+
+  const transporter = nodemailer.createTransport({
+      host: "sandbox.smtp.mailtrap.io",
+      port: 587,
+      secure: false, // true for port 465, false for other ports
+      auth: {
+          user: "b45e97ef93c232",
+          pass: "c37530d33777ac",
+      },
+  });
+
+      const info = await transporter.sendMail({
+          from: 'teste@gmail.com', // sender address
+          to: email, // list of receivers
+          subject: "Confirmação de compra", // Subject line
+          text: resposta, // plain text body
+          html: `<h2>Olá, ${nome}</h2>
+          <h3>${descricao}</h3>
+          <h1>${resposta}</h1>`, // html body
+      });
+}
+
 // Read
 router.get("/", async (req: any, res) => {
   const carrinhos = await prisma.carrinho.findMany(
@@ -22,7 +45,8 @@ router.get("/", async (req: any, res) => {
             preco: true
           }
         },
-        total: true
+        total: true,
+        pronto: true
 
       }
     }
@@ -160,7 +184,8 @@ router.get("/:usuarioId", async (req, res) => {
             preco: true
           }
         },
-        total: true
+        total: true,
+        pronto: true
 
       }
 
@@ -198,28 +223,26 @@ router.put("/concluir/:usuarioId", async (req, res) => {
 
 // esvaziar item do carrinho sem deletar o carrinho
 
-router.delete("/concluir/:usuarioId", async (req, res) => {
-  const { usuarioId } = req.params;
+router.delete("/concluir/:carrinhoId", async (req, res) => {
+  const { carrinhoId } = req.params;
+
+  const { nome, email } = req.body;
 
   try {
 
-    const carrinho = await prisma.carrinho.findFirst({
-      where: { usuarioId: String(usuarioId) },
-      select: {
-        id: true
-      }
-    });
-
     const esvaziar = await prisma.carrinho_produto.deleteMany({
-      where: { carrinhoId: carrinho?.id }
+      where: { carrinhoId: Number(carrinhoId) }
     });
 
     const carrinhoPronto = await prisma.carrinho.update({
-      where: { id: carrinho?.id },
+      where: { id: Number(carrinhoId) },
       data: { pronto: false, total: 0 }
     });
 
     res.status(201).json(esvaziar);
+
+    enviaEmail( nome, email, "Compra realizada com sucesso", "Compra realizada com sucesso");
+
   } catch (error) {
     res.status(400).json(error);
   }
