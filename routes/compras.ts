@@ -172,21 +172,57 @@ router.get("/:usuarioId", async (req, res) => {
 })
 
 // Delete
-router.delete("/:id", async (req, res) => {
-  const { id } = req.params;
+router.put("/concluir/:usuarioId", async (req, res) => {
+  const { usuarioId } = req.params;
 
   try {
-    const carrinho = await prisma.carrinho.delete({
-      where: { id: Number(id) },
+
+    const carrinho = await prisma.carrinho.findFirst({
+      where: { usuarioId: String(usuarioId) },
+      select: {
+        id: true
+      }
     });
-    res.status(200).json(carrinho);
+
+
+    const carrinhoPronto = await prisma.carrinho.update({
+      where: { id: carrinho?.id },
+      data: { pronto: true }
+    });
+
+    res.status(201).json(carrinhoPronto);
   } catch (error) {
     res.status(400).json(error);
   }
 });
 
+// esvaziar item do carrinho sem deletar o carrinho
 
+router.delete("/concluir/:usuarioId", async (req, res) => {
+  const { usuarioId } = req.params;
 
+  try {
 
+    const carrinho = await prisma.carrinho.findFirst({
+      where: { usuarioId: String(usuarioId) },
+      select: {
+        id: true
+      }
+    });
+
+    const esvaziar = await prisma.carrinho_produto.deleteMany({
+      where: { carrinhoId: carrinho?.id }
+    });
+
+    const carrinhoPronto = await prisma.carrinho.update({
+      where: { id: carrinho?.id },
+      data: { pronto: false, total: 0 }
+    });
+
+    res.status(201).json(esvaziar);
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
 
 export default router;

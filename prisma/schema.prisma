@@ -89,6 +89,7 @@ model carrinho {
   usuarioId String
   total     Float              @default(0)
   produtos  carrinho_produto[]
+  pronto    Boolean            @default(false)
 
   @@map("carrinhos")
 }
