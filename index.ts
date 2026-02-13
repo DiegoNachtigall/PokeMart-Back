@@ -4,6 +4,7 @@ const port = 3001
 // const port = process.env.PORT ?? 3001
 
 import UsuariosRoutes from './routes/usuarios'
+import LoginRoutes from './routes/login'
 import produtoRoutes from './routes/itens'
 import MarcasRoutes from './routes/marcas'
 import ComprasRoutes from './routes/compras'
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 app.use("/usuarios", UsuariosRoutes)
+app.use("/login", LoginRoutes)
 app.use("/produtos", produtoRoutes)
 app.use("/marcas", MarcasRoutes)
 app.use("/compras", ComprasRoutes)
