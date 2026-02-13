@@ -51,7 +51,11 @@ function validaSenha(senha: string) {
     mensa.push("Erro... senha deve possuir letras minúsculas, maiúsculas, números e símbolos")
   }
 
-  return mensa
+  if (mensa.length > 0) {
+    return true
+  }
+
+  return false
 }
 
 router.post("/", async (req, res) => {
@@ -62,9 +66,8 @@ router.post("/", async (req, res) => {
     return
   }
 
-  const erros = validaSenha(senha)
-  if (erros.length > 0) {
-    res.status(400).json({ erro: erros.join("; ") })
+  if (validaSenha(senha)) {
+    res.status(400).json({ erro: "Erro... senha deve possuir letras minúsculas, maiúsculas, números e símbolos" })
     return
   }
 
@@ -199,8 +202,8 @@ router.put("/mudarsenha/:id", async (req, res) => {
 
   const erros = validaSenha(senhaNova)
 
-  if (erros.length > 0) {
-    res.status(400).json({ erro: erros.join("; ") })
+  if (validaSenha(senhaNova)) {
+    res.status(400).json({ erro: "Erro... senha deve possuir letras minúsculas, maiúsculas, números e símbolos" })
     return
   }
 
