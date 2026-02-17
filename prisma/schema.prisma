@@ -81,6 +81,16 @@ model usuario {
   @@map("usuarios")
 }
 
+model sessao {
+  id        String     @id @default(uuid()) @db.VarChar(36)
+  usuarioId String
+  refreshToken String
+  createdAt DateTime   @default(now())
+  expiresAt DateTime
+
+  @@map("sessoes")
+}
+
 model carrinho {
   id        Int                @id @default(autoincrement())
   createdAt DateTime           @default(now())

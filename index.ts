@@ -5,6 +5,7 @@ const port = 3001
 
 import UsuariosRoutes from './routes/usuarios'
 import LoginRoutes from './routes/login'
+import RefreshRoutes from './routes/refresh'
 import produtoRoutes from './routes/itens'
 import MarcasRoutes from './routes/marcas'
 import ComprasRoutes from './routes/compras'
@@ -25,6 +26,7 @@ app.use("/compras", ComprasRoutes)
 app.use("/fotos", FotosRoutes)
 app.use("/altSenha", AltSenha)
 app.use("/dashboard", DashboardRoutes)
+app.use("/refresh", RefreshRoutes)
 
 app.get('/', (req, res) => {
   res.send('API pokemart')
