@@ -38,18 +38,19 @@ router.post("/", async (req, res) => {
 
       const acessToken = jwt.sign(
         {
-          userLogadoId: usuario.id,
-          userLogadoNome: usuario.nome,
-
+          userId: usuario.id,
+          userName: usuario.nome,
+          admin: usuario.admin
         },
+        
         process.env.JWT_ACCESS_KEY as string,
         { expiresIn: "1h" }
       );
 
       const refreshToken = jwt.sign(
         {
-          userLogadoId: usuario.id,
-          userLogadoNome: usuario.nome,
+          userId: usuario.id,
+          userName: usuario.nome,
         },
         process.env.JWT_REFRESH_KEY as string,
         { expiresIn: "30d" }
@@ -77,7 +78,7 @@ router.post("/", async (req, res) => {
           }
         })
       ]);
-
+      
       res
         .cookie("accessToken", acessToken, {
           httpOnly: true,

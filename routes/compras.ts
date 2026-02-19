@@ -2,6 +2,8 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
 import nodemailer from "nodemailer";
+import { verificaToken } from "../middewares/verificaToken";
+import { verificaAdmin } from "../middewares/verificaAdmin";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -30,7 +32,7 @@ async function enviaEmail(nome: string, email: string, descricao: string, respos
 }
 
 // Read
-router.get("/", async (req: any, res) => {
+router.get("/", verificaToken, verificaAdmin, async (req: any, res) => {
   const carrinhos = await prisma.carrinho.findMany(
     {
       select: {
@@ -54,28 +56,8 @@ router.get("/", async (req: any, res) => {
   res.status(200).json(carrinhos);
 });
 
-// Post esta sendo feito direto ao criar um usuario
-// // Post
-// router.post("/", async (req: any, res) => {
-//   const { usuarioId } = req.body;
-
-//   if (!usuarioId) {
-//     res.status(400).json({ erro: "Informe todos os dados" });
-//     return;
-//   }
-
-//   try {
-//     const carrinhos = await prisma.carrinho.create({
-//       data: { usuarioId: String(usuarioId) },
-//     });
-//     res.status(201).json(carrinhos);
-//   } catch (error) {
-//     res.status(400).json(error);
-//   }
-// });
-
 // Create
-router.post("/adicionar/:produtoId", async (req: any, res) => {
+router.post("/adicionar/:produtoId", verificaToken, async (req: any, res) => {
   const { usuarioId, quantidade } = req.body
   const { produtoId } = req.params
 

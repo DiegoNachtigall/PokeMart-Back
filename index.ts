@@ -1,4 +1,6 @@
 import express from 'express'
+import cookieParser from 'cookie-parser'
+
 const app = express()
 const port = 3001
 // const port = process.env.PORT ?? 3001
@@ -17,6 +19,7 @@ import cors from 'cors'
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
+app.use(cookieParser())
 
 app.use("/usuarios", UsuariosRoutes)
 app.use("/login", LoginRoutes)

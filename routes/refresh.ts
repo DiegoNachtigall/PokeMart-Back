@@ -8,17 +8,17 @@ const router = Router();
 
 router.post("/", async (req, res) => {
 
-  const { refreshToken } = req.body;
-
+  const refreshToken = req.cookies.refreshToken;
+  
   if (!refreshToken) {
-    return res.status(403).json({ erro: "Refresh token inválido" });
+    return res.status(403).json({ erro: "Refresh token não informado" });
   }
 
   try {
     const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY as string) as any;
-
+    
     const user = await prisma.usuario.findUnique({
-      where: { id: decoded.userLogadoId },
+      where: { id: decoded.userId },
     });
 
     if (!user) {
@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
     // encontrar sessão com o usuarioid e refreshtoken
     const sessions = await prisma.sessao.findMany({
       where: {
-        usuarioId: decoded.userLogadoId
+        usuarioId: decoded.userId
       },
     });
 
@@ -58,8 +58,8 @@ router.post("/", async (req, res) => {
 
     const accessToken = jwt.sign(
       {
-        userLogadoId: user.id,
-        userLogadoNome: user.nome,
+        userId: user.id,
+        userName: user.nome,
       },
       process.env.JWT_ACCESS_KEY as string,
       { expiresIn: "1h" }
@@ -67,8 +67,8 @@ router.post("/", async (req, res) => {
 
     const newRefreshToken = jwt.sign(
       {
-        userLogadoId: user.id,
-        userLogadoNome: user.nome,
+        userId: user.id,
+        userName: user.nome,
       },
       process.env.JWT_REFRESH_KEY as string,
       { expiresIn: "30d" }
@@ -86,11 +86,11 @@ router.post("/", async (req, res) => {
       }),
       prisma.sessao.update({
         where: {
-          id: sessaoValida.id,
-          expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+          id: sessaoValida.id
         },
         data: {
           refreshToken: hashRefreshToken,
+          expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
         },
       }),
     ]);
@@ -98,17 +98,17 @@ router.post("/", async (req, res) => {
     res
     .cookie("accessToken", accessToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       maxAge: 1000 * 60 * 60,
     })
     .cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       maxAge: 1000 * 60 * 60 * 24 * 30,
     })
-    .status(200).json();
+    .status(200).json({"message": "Refresh token atualizado com sucesso"});
   } catch (error) {
     res.status(400).json({ erro: "Refresh token inválido" });
 

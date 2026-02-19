@@ -1,10 +1,12 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
+import { verificaToken } from "../middewares/verificaToken";
+import { verificaAdmin } from "../middewares/verificaAdmin";
 
 const prisma = new PrismaClient();
 const router = Router();
 
-router.get("/compras", async (req: any, res) => {
+router.get("/compras", verificaToken, verificaAdmin, async (req: any, res) => {
 
     try {
         const compras = await prisma.carrinho.findMany({
@@ -40,7 +42,7 @@ router.get("/compras", async (req: any, res) => {
     }
 });
 
-router.get("/gerais", async (req: any, res) => {
+router.get("/gerais", verificaToken, verificaAdmin, async (req: any, res) => {
     
     try {
     const totalProdutos = await prisma.produto.count();
@@ -54,7 +56,7 @@ router.get("/gerais", async (req: any, res) => {
     }
 })
 
-router.get("/produtosMarca" , async (req: any, res) => {
+router.get("/produtosMarca", verificaToken, verificaAdmin, async (req: any, res) => {
 
     try {
 

@@ -3,6 +3,7 @@ import { Router } from "express";
 
 import { verificaToken } from "../middewares/verificaToken";
 import { error } from "console";
+import { verificaAdmin } from "../middewares/verificaAdmin";
 
 const prisma = new PrismaClient();
 
@@ -42,7 +43,7 @@ router.get("/", async (req: any, res) => {
 });
 
 // Create
-router.post("/", async (req: any, res) => {
+router.post("/", verificaToken, verificaAdmin, async (req: any, res) => {
   const { nome, descricao, preco, categorias, fotoPrincipal, marcaId, estoque } = req.body;
 
 
@@ -62,7 +63,7 @@ router.post("/", async (req: any, res) => {
 });
 
 // Delete
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verificaToken, verificaAdmin, async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -76,7 +77,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 // Update
-router.put("/:id", async (req, res) => {
+router.put("/:id", verificaToken, verificaAdmin, async (req, res) => {
   const { id } = req.params;
   const { nome, descricao, preco, categorias, fotoPrincipal, marcaId, estoque } = req.body;
 
@@ -89,7 +90,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // Adicionar ao estoque
-router.put("/:id/adicionar", async (req, res) => {
+router.put("/:id/adicionar", verificaToken, verificaAdmin, async (req, res) => {
   const { id } = req.params;
   const { estoque } = req.body;
   try {

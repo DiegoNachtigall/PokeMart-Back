@@ -1,6 +1,8 @@
 // routes\marcas.ts
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
+import { verificaAdmin } from "../middewares/verificaAdmin";
+import { verificaToken } from "../middewares/verificaToken";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -12,7 +14,7 @@ router.get("/", async (req: any, res) => {
 });
 
 // Create
-router.post("/", async (req: any, res) => {
+router.post("/", verificaToken, verificaAdmin, async (req: any, res) => {
     const { nome, foto } = req.body;
 
     if (!nome || !foto) {
@@ -31,7 +33,7 @@ router.post("/", async (req: any, res) => {
 });
 
 // Delete
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", verificaToken, verificaAdmin, async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -45,7 +47,7 @@ router.delete("/:id", async (req, res) => {
 });
 
 // Update
-router.put("/:id", async (req, res) => {
+router.put("/:id", verificaToken, verificaAdmin, async (req, res) => {
     const { id } = req.params;
     const { nome, foto } = req.body;
 
