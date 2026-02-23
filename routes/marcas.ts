@@ -18,8 +18,7 @@ router.post("/", verificaToken, verificaAdmin, async (req: any, res) => {
     const { nome, foto } = req.body;
 
     if (!nome || !foto) {
-        res.status(400).json({ erro: "Informe todos os dados" });
-        return;
+        return res.status(400).json({ erro: "Informe todos os dados" });
     }
 
     try {
@@ -52,8 +51,7 @@ router.put("/:id", verificaToken, verificaAdmin, async (req, res) => {
     const { nome, foto } = req.body;
 
     if (!nome || !foto) {
-        res.status(400).json({ erro: "Informe todos os dados" });
-        return;
+        return res.status(400).json({ erro: "Informe todos os dados" });
     }
 
     try {

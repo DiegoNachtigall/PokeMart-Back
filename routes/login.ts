@@ -14,8 +14,7 @@ router.post("/", async (req, res) => {
   var mensaPadrao = "Login ou senha incorretos";
 
   if (!email || !senha) {
-    res.status(401).json({ erro: mensaPadrao });
-    return;
+    return res.status(401).json({ erro: mensaPadrao });
   }
 
   try {
@@ -24,13 +23,11 @@ router.post("/", async (req, res) => {
     });
 
     if (usuario == null) {
-      res.status(401).json({ erro: mensaPadrao });
-      return;
+      return res.status(401).json({ erro: mensaPadrao });
     }
     // Verifica se o usuario está bloqueado
     if (usuario.blocked == true) {
-      res.status(403).json({ erro: "Usuário bloqueado, entre em contato com o setor responsavel para efetuar o desbloqueio da conta" });
-      return;
+      return res.status(403).json({ erro: "Usuário bloqueado, entre em contato com o setor responsavel para efetuar o desbloqueio da conta" });
     }
     // se o e-mail existe, faz-se a comparação dos hashs
     const senhaCorreta = await bcrypt.compare(senha, usuario.senha)
@@ -134,6 +131,5 @@ router.post("/", async (req, res) => {
     res.status(500).json({ erro: "erro interno do servidor" });
   }
 });
-
 
 export default router;

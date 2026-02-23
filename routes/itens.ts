@@ -48,8 +48,7 @@ router.post("/", verificaToken, verificaAdmin, async (req: any, res) => {
 
 
   if (!nome || !descricao || !preco || !categorias || !fotoPrincipal || !marcaId || !estoque) {
-    res.status(400).json({ erro: "Informe todos os dados" });
-    return;
+    return res.status(400).json({ erro: "Informe todos os dados" });
   }
 
   try {

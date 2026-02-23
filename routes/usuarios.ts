@@ -23,7 +23,7 @@ router.get("/", verificaToken, verificaAdmin, async (req, res) => {
     res.status(200).json(usuarios)
 
   } catch (error) {
-    res.status(400).json(error)
+    res.status(500).json({ erro: "Erro ao buscar os usuários" })
   }
 
 })
@@ -56,15 +56,13 @@ router.post("/", async (req, res) => {
   const { nome, email, senha, imagem } = req.body
 
   if (!nome || !email || !senha) {
-    res.status(400).json({ erro: "Informe nome, email e senha" })
-    return
+    return res.status(400).json({ erro: "Informe nome, email e senha" })
   }
 
   const erros = validaSenha(senha)
 
   if (erros.length > 0) {
-    res.status(400).json({ erro: erros })
-    return
+    return res.status(400).json({ erro: erros })
   }
 
   const emailNormalizado = email.toLowerCase().trim()
@@ -101,7 +99,7 @@ router.post("/", async (req, res) => {
 })
 
 // Efetua a exclusão de um Usuário
-router.delete("/deletar", verificaToken, verificaAdmin, async (req: any, res) => {
+router.delete("/deletar", verificaToken, async (req: any, res) => {
   const id  = req.userId
 
   try {
@@ -110,11 +108,11 @@ router.delete("/deletar", verificaToken, verificaAdmin, async (req: any, res) =>
     return res.status(200).json({ message: "Usuário excluido com sucesso" })
 
   } catch (error) {
-    return res.status(400).json({ erro: "Erro ao excluir o usuário" })
+    return res.status(500).json({ erro: "Erro ao excluir o usuário" })
   }
 })
 
-router.put("/update", verificaToken, async (req: any, res) => {
+router.patch("/atualizar", verificaToken, async (req: any, res) => {
   const id = req.userId
   const { nome, email, imagem } = req.body
 
@@ -124,79 +122,72 @@ router.put("/update", verificaToken, async (req: any, res) => {
       data: { nome, email, imagem }
     })
     res.status(200).json({
-      message: "Usuário atualizado com sucesso",
-      userId: id,
+      message: "Usuário atualizado com sucesso"
     })
   } catch (error) {
-    res.status(400).json(error)
+    res.status(500).json({ erro: "Erro ao atualizar o usuário" })
   }
 
 })
 
-router.put("/admin/:id", verificaToken, verificaAdmin, async (req, res) => {
-  const { id } = req.params
+router.patch("/admin", verificaToken, verificaAdmin, async (req, res) => {
+  const { userId } = req.body
   try {
-    const usuario = await prisma.usuario.update({
-      where: { id: id },
+    await prisma.usuario.update({
+      where: { id: userId },
       data: { admin: true }
     })
     res.status(200).json({
-      message: "Usuário atualizado com sucesso",
-      userId: id,
+      message: "Usuário atualizado com sucesso"
     })
   } catch (error) {
-    res.status(400).json(error)
+    res.status(500).json({ erro: "Erro ao atualizar o usuário" })
   }
 
 })
 
 // Efetua o Desbloqueio de um Usuário
-router.put("/desbloquear/:id", verificaToken, verificaAdmin, async (req, res) => {
-  const { id } = req.params
+router.patch("/desbloquear", verificaToken, verificaAdmin, async (req, res) => {
+  const { userId } = req.body
 
   try {
-    const usuario = await prisma.usuario.update({
-      where: { id: id },
+    await prisma.usuario.update({
+      where: { id: userId },
       data: { blocked: false, tentativasLogin: 0 }
     })
     res.status(200).json({
-      message: "Usuário desbloqueado com sucesso",
-      userId: id,
+      message: "Usuário desbloqueado com sucesso"
     })
   } catch (error) {
-    res.status(400).json(error)
+    res.status(500).json({ erro: "Erro ao desbloquear o usuário" })
   }
 })
 
 // Efetua a mudança de senha de um usuário
-router.put("/mudarsenha", verificaToken, async (req: any, res) => {
+router.patch("/mudarsenha", verificaToken, async (req: any, res) => {
   
   const { senhaAntiga, senhaNova } = req.body
 
   const id = req.userId
   
   if (!senhaAntiga || !senhaNova) {
-    res.status(400).json({ erro: "Informe a senha antiga e a nova senha" })
-    return
+    return res.status(400).json({ erro: "Informe a senha antiga e a nova senha" })
   }
 
   const usuario = req.usuario
 
   if (!usuario) {
-    res.status(400).json({ erro: "Usuário não encontrado" })
-    return
+    return res.status(400).json({ erro: "Usuário não encontrado" })
   }
 
   if (!bcrypt.compareSync(senhaAntiga, usuario.senha)) {
-    res.status(400).json({ erro: "Senha antiga inválida" })
-    return
+    return res.status(400).json({ erro: "Senha antiga inválida" })
   }
 
   const erros = validaSenha(senhaNova)
 
   if (erros.length > 0) {
-    res.status(400).json({ erro: erros })
-    return
+    return res.status(400).json({ erro: erros })
   }
 
   const hash = await bcrypt.hashSync(senhaNova, 12)
@@ -211,7 +202,7 @@ router.put("/mudarsenha", verificaToken, async (req: any, res) => {
       userId: id
     })
   } catch (error) {
-    res.status(400).json(error)
+    res.status(500).json({ erro: "Erro ao alterar a senha" })
   }
 
 })
@@ -225,8 +216,7 @@ router.get("/:id", verificaToken, async (req, res) => {
     });
 
     if (usuario == null) {
-      res.status(400).json({ erro: "Não Cadastrado" });
-      return;
+      return res.status(400).json({ erro: "Não Cadastrado" });
     } else {
       res.status(200).json({
         id: usuario.id,

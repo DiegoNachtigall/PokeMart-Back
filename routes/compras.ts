@@ -58,12 +58,12 @@ router.get("/", verificaToken, verificaAdmin, async (req: any, res) => {
 
 // Create
 router.post("/adicionar/:produtoId", verificaToken, async (req: any, res) => {
-  const { usuarioId, quantidade } = req.body
+  const { quantidade } = req.body
   const { produtoId } = req.params
+  const usuarioId = req.userId
 
   if (!usuarioId || !produtoId || !quantidade) {
-    res.status(400).json({ erro: "Informe todos os dados" });
-    return;
+    return res.status(400).json({ erro: "Informe todos os dados" });
   }
 
   try {
@@ -146,8 +146,8 @@ router.delete("/remover/:id", async (req: any, res) => {
 })
 
 // Busca por id
-router.get("/:usuarioId", async (req, res) => {
-  const { usuarioId } = req.params;
+router.get("/carrinho", verificaToken, async (req: any, res) => {
+  const usuarioId = req.userId
 
   try {
     const carrinho = await prisma.carrinho.findFirst({
@@ -190,7 +190,6 @@ router.put("/concluir/:usuarioId", async (req, res) => {
         id: true
       }
     });
-
 
     const carrinhoPronto = await prisma.carrinho.update({
       where: { id: carrinho?.id },

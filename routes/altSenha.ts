@@ -1,88 +1,89 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import nodemailer from "nodemailer";
 
 const prisma = new PrismaClient();
 const router = Router();
 
-async function enviaEmail(nome: string, email: string, descricao: string, resposta: string) {
-
-    const transporter = nodemailer.createTransport({
-        host: "sandbox.smtp.mailtrap.io",
-        port: 587,
-        secure: false, // true for port 465, false for other ports
-        auth: {
-            user: "b45e97ef93c232",
-            pass: "c37530d33777ac",
-        },
-    });
-
-        const info = await transporter.sendMail({
-            from: 'teste@gmail.com', // sender address
-            to: email, // list of receivers
-            subject: "Codigo de alteração de senha", // Subject line
-            text: resposta, // plain text body
-            html: `<h2>Olá, ${nome}</h2>
-            <h3>Seu codigo de Verificação é:</h3>
-            <h1>${resposta}</h1>`, // html body
-        });
-}
-
-router.post("/criaCodigo/:usuarioId", async (req, res) => {
-    const { usuarioId } = req.params;
+router.post("/recuperar", async (req, res) => {
+    const { email } = req.body;
 
     try {
         const usuario = await prisma.usuario.findUnique({
-            where: { id: usuarioId },
+            where: { email: email },
         });
 
         if (!usuario) {
-            res.status(404).json({ erro: "Usuário não encontrado" });
-            return;
+            return res.status(200).json({ erro: `Codigo de verificação enviado para ${email}` });
         }
 
-        const recuperacao = Math.floor(100000 + Math.random() * 900000);
+        const codigo = (Math.floor(100000 + Math.random() * 900000)).toString();
+        const recuperacao = await bcrypt.hash(codigo, 10);
 
-        await prisma.usuario.update({
-            where: { id: usuarioId },
-            data: { recuperacao: recuperacao.toString() },
+        await prisma.tokenResetSenha.create({
+            data: {
+                usuarioId: usuario.id,
+                token: recuperacao,
+                expiracao: new Date(Date.now() + 15 * 60 * 1000),
+            },
         });
 
-        await enviaEmail(usuario.nome, usuario.email, "Codigo de alteração de senha", recuperacao.toString());
-
-        res.status(200).json({ mensagem: "Código enviado com sucesso" });
+        res.status(200).json({ 
+            mensagem: `Codigo de verificação enviado para ${email}`,
+            codigo
+        });
     } catch (error) {
-        res.status(400).json(error);
+        res.status(500).json({ erro: "Erro interno do servidor" });
     }
 });
 
-router.post("/:usuarioId", async (req, res) => {
-    const { novaSenha, novaSenha2, codigo } = req.body;
-    const { usuarioId } = req.params;
+router.post("/resetar", async (req, res) => {
+    const { email, novaSenha, novaSenha2, codigo } = req.body;
 
     if (!novaSenha || !novaSenha2) {
-        res.status(400).json({ erro: "Informe nova senha" });
-        return;
+        return res.status(400).json({ erro: "Informe nova senha" });
     }
 
     if (novaSenha !== novaSenha2) {
-        res.status(400).json({ erro: "As senhas informadas devem ser iguais" });
-        return;
+        return res.status(400).json({ erro: "As senhas informadas devem ser iguais" });
     }
 
     if (!codigo) {
-        res.status(400).json({ erro: "Insira o Código de Verificação" });
-        return;
+        return res.status(400).json({ erro: "Insira o Código de Verificação" });
     }
 
     const usuario = await prisma.usuario.findUnique({
-        where: { id: usuarioId },
+        where: { email: email },
     });
 
-    if (usuario?.recuperacao !== codigo) {
-        res.status(400).json({ erro: "Código de Verificação inválido" });
-        return;
+    if (!usuario) {
+        res.status(400).json({ erro: "Código inválido" });
+    }
+
+    const tokens = await prisma.tokenResetSenha.findMany({
+        where: {
+            usuarioId: usuario?.id,
+            usado: false,
+            expiracao: { gt: new Date() },
+        }
+    });
+
+    if (tokens.length === 0) {
+        return res.status(400).json({ erro: "Código expirado" });
+    }
+
+    let tokenValido = null;
+
+    for (const token of tokens) {
+        const match = await bcrypt.compare(codigo, token.token);
+        if (match) {
+            tokenValido = token;
+            break;
+        }
+    }
+
+    if (!tokenValido) {
+        return res.status(400).json({ erro: "Código inválido" });
     }
 
     try {
@@ -90,14 +91,20 @@ router.post("/:usuarioId", async (req, res) => {
         const salt = bcrypt.genSaltSync(12);
         const hash = bcrypt.hashSync(novaSenha, salt);
 
-        await prisma.usuario.update({
-            where: { id: usuarioId },
-            data: { senha: hash },
-        });
+        await prisma.$transaction([
+            prisma.tokenResetSenha.update({
+                where: { id: tokenValido.id },
+                data: { usado: true },
+            }),
+            prisma.usuario.update({
+                where: { email: email },
+                data: { senha: hash },
+            }),
+        ]);
 
         res.status(200).json({ mensagem: "Senha alterada com sucesso" });
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).json({ erro: "Erro ao alterar a senha" });
     }
 });
 

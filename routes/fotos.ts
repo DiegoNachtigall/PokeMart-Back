@@ -20,8 +20,7 @@ router.post("/", upload.single("codigo"), async (req: any, res) => {
     const codigo = req.file?.buffer.toString("base64");
 
     if (!codigo || !produtoId || !descricao) {
-        res.status(400).json({ erro: "Informe todos os dados" });
-        return;
+        return res.status(400).json({ erro: "Informe todos os dados" });
     }
 
     try {

@@ -66,27 +66,46 @@ model marca {
 model usuario {
   id              String     @id @default(uuid()) @db.VarChar(36)
   nome            String     @db.VarChar(60)
-  email           String     @unique @db.VarChar(40)
-  senha           String     @db.VarChar(60)
+  email           String     @unique @db.VarChar(255)
+  senha           String     @db.VarChar(255)
+
   imagem          String     @default("https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg")
+  
   createdAt       DateTime   @default(now())
   admin           Boolean    @default(false)
-  recuperacao     String?
+
+  resetTokens      tokenResetSenha[]
+
   carrinhos       carrinho[]
+
   deleted         Boolean    @default(false)
   tentativasLogin Int        @default(0)
   blocked         Boolean    @default(false)
+
   logs            Log[]
 
   @@map("usuarios")
 }
 
-model sessao {
-  id        String     @id @default(uuid()) @db.VarChar(36)
+model tokenResetSenha {
+  id        String   @id @default(uuid()) @db.VarChar(36)
   usuarioId String
+  token     String   @db.VarChar(255)
+  expiracao DateTime
+  usado    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  usuario usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@index([usuarioId])
+}
+
+model sessao {
+  id           String   @id @default(uuid()) @db.VarChar(36)
+  usuarioId    String
   refreshToken String
-  createdAt DateTime   @default(now())
-  expiresAt DateTime
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime
 
   @@map("sessoes")
 }

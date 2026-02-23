@@ -16,8 +16,7 @@ export async function verificaToken(req: Request | any, res: Response, next: Nex
     const token = req.cookies.accessToken
     
     if (!token) {
-      res.status(401).json({ error: "Token não informado" })
-      return
+      return res.status(401).json({ error: "Token não informado" })
     }
 
     const decode = jwt.verify(token, process.env.JWT_ACCESS_KEY as string)
