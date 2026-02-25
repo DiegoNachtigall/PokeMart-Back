@@ -1,35 +1,10 @@
 // routes\carrinhos.ts
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
-import nodemailer from "nodemailer";
-import { verificaToken } from "../middewares/verificaToken";
-import { verificaAdmin } from "../middewares/verificaAdmin";
+import { verificaToken, verificaAdmin } from "../middewares/Auth";
 
 const prisma = new PrismaClient();
 const router = Router();
-
-async function enviaEmail(nome: string, email: string, descricao: string, resposta: string) {
-
-  const transporter = nodemailer.createTransport({
-      host: "sandbox.smtp.mailtrap.io",
-      port: 2525,
-      secure: false, // true for port 465, false for other ports
-      auth: {
-          user: "b45e97ef93c232",
-          pass: "c37530d33777ac",
-      },
-  });
-
-      const info = await transporter.sendMail({
-          from: 'teste@gmail.com', // sender address
-          to: email, // list of receivers
-          subject: "Confirmação de compra", // Subject line
-          text: resposta, // plain text body
-          html: `<h2>Olá, ${nome}</h2>
-          <h3>${descricao}</h3>
-          <h1>${resposta}</h1>`, // html body
-      });
-}
 
 // Read
 router.get("/", verificaToken, verificaAdmin, async (req: any, res) => {
@@ -114,7 +89,7 @@ router.post("/adicionar/:produtoId", verificaToken, async (req: any, res) => {
   }
 });
 
-router.delete("/remover/:id", async (req: any, res) => {
+router.delete("/remover/:id", verificaToken, async (req: any, res) => {
   const { id } = req.params
 
   try {
@@ -179,8 +154,8 @@ router.get("/carrinho", verificaToken, async (req: any, res) => {
 })
 
 // Delete
-router.put("/concluir/:usuarioId", async (req, res) => {
-  const { usuarioId } = req.params;
+router.put("/concluir/", verificaToken, async (req: any, res) => {
+  const usuarioId = req.userId;
 
   try {
 
@@ -204,7 +179,7 @@ router.put("/concluir/:usuarioId", async (req, res) => {
 
 // esvaziar item do carrinho sem deletar o carrinho
 
-router.delete("/concluir/:carrinhoId", async (req, res) => {
+router.delete("/concluir/:carrinhoId", verificaToken, async (req, res) => {
   const { carrinhoId } = req.params;
 
   const { nome, email } = req.body;
@@ -222,7 +197,7 @@ router.delete("/concluir/:carrinhoId", async (req, res) => {
 
     res.status(201).json(esvaziar);
 
-    enviaEmail( nome, email, "Compra realizada com sucesso", "Compra realizada com sucesso");
+    // enviaEmail( nome, email, "Compra realizada com sucesso", "Compra realizada com sucesso");
 
   } catch (error) {
     res.status(400).json(error);

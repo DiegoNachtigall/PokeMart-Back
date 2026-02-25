@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
-import { verificaToken } from "../middewares/verificaToken";
-import { verificaAdmin } from "../middewares/verificaAdmin";
+import { verificaToken, verificaAdmin } from "../middewares/Auth";
 
 const prisma = new PrismaClient();
 const router = Router();
