@@ -32,7 +32,7 @@ CREATE TABLE "fotos" (
 CREATE TABLE "marcas" (
     "id" SERIAL NOT NULL,
     "nome" VARCHAR(60) NOT NULL,
-    "foto" TEXT NOT NULL,
+    "imagem" TEXT NOT NULL,
 
     CONSTRAINT "marcas_pkey" PRIMARY KEY ("id")
 );

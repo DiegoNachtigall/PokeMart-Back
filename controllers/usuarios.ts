@@ -27,8 +27,9 @@ export async function buscarPorId(req: Request, res: Response) {
   }
 }
 
-export async function criar(req: Request, res: Response) {
-  const { nome, email, senha, imagem } = req.body;
+export async function criar(req: any, res: Response) {
+  const { nome, email, senha } = req.body;
+  
 
   if (!nome || !email || !senha) {
     return res.status(400).json({ erro: "Informe nome, email e senha" });
@@ -40,9 +41,18 @@ export async function criar(req: Request, res: Response) {
   }
 
   try {
-    await UsuariosService.criarUsuario(nome, email, senha, imagem);
+    await UsuariosService.criarUsuario(
+      {
+        nome,
+        email,
+        senha
+      },
+      req.file
+    );
     res.status(201).json({ mensagem: "Cadastro realizado com sucesso!" });
   } catch (error: any) {
+        console.log(error);
+
     if (error.code === "P2002") {
       return res.status(400).json({ erro: "Email já cadastrado" });
     }
@@ -52,12 +62,15 @@ export async function criar(req: Request, res: Response) {
 
 export async function atualizar(req: any, res: Response) {
   const id = req.userId;
-  const { nome, email, imagem } = req.body;
+  const { nome, email } = req.body;
 
   try {
-    await UsuariosService.atualizarUsuario(id, { nome, email, imagem });
+    await UsuariosService.atualizarUsuario(id, { nome, email }, req.file);
     res.status(200).json({ mensagem: "Usuário atualizado com sucesso" });
-  } catch (error) {
+  } catch (error : any) {
+    if (error.code === "P2002") {
+      return res.status(400).json({ erro: "Email já cadastrado" });
+    }
     res.status(500).json({ erro: "Erro ao atualizar o usuário" });
   }
 }

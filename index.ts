@@ -10,7 +10,7 @@ import LoginRoutes from './routes/login'
 import RefreshRoutes from './routes/refresh'
 import produtoRoutes from './routes/itens'
 import MarcasRoutes from './routes/marcas'
-import ComprasRoutes from './routes/compras'
+import CarrinhoRoutes from './routes/carrinhos'
 import AltSenha from './routes/altSenha'
 import DashboardRoutes from './routes/dashboard'
 import cors from 'cors'
@@ -24,7 +24,7 @@ app.use("/usuarios", UsuariosRoutes)
 app.use("/login", LoginRoutes)
 app.use("/produtos", produtoRoutes)
 app.use("/marcas", MarcasRoutes)
-app.use("/compras", ComprasRoutes)
+app.use("/carrinhos", CarrinhoRoutes)
 app.use("/altSenha", AltSenha)
 app.use("/dashboard", DashboardRoutes)
 app.use("/refresh", RefreshRoutes)

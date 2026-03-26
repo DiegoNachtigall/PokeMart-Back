@@ -9,8 +9,7 @@ const router = Router();
 router.get("/compras", verificaToken, verificaAdmin, async (req: any, res) => {
 
     try {
-        const compras = await prisma.carrinho.findMany({
-            where: { pronto: true },
+        const compras = await prisma.pedido.findMany({
             select: {
                 id: true,
                 createdAt: true,
@@ -26,14 +25,14 @@ router.get("/compras", verificaToken, verificaAdmin, async (req: any, res) => {
                 produtos: {
                     select: {
                         id: true,
-                        carrinhoId: true,
+                        pedidoId: true,
                         produtoId: true,
                         quantidade: true,
                         preco: true
                     }
                 },
                 total: true,
-                pronto: true
+                status: true
             }
         });
         res.status(200).json(compras);
@@ -47,7 +46,7 @@ router.get("/gerais", verificaToken, verificaAdmin, async (req: any, res) => {
     try {
     const totalProdutos = await prisma.produto.count();
     const totalUsuarios = await prisma.usuario.count();
-    const totalCompras = await prisma.carrinho.count({ where: { pronto: true } });
+    const totalCompras = await prisma.pedido.count();
 
     res.status(200).json({ totalProdutos, totalUsuarios, totalCompras });
 

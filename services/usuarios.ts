@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
+import { uploadImagem } from "../utils/uploadImagem";
 
 export function validaSenha(senha: string): string[] {
   const erros: string[] = [];
@@ -45,11 +46,21 @@ export async function buscarUsuarioPorId(id: string) {
 }
 
 export async function criarUsuario(
-  nome: string,
-  email: string,
-  senha: string,
-  imagem?: string
+  dados: {
+    nome: string,
+    email: string,
+    senha: string,
+  },
+  arquivo?: Express.Multer.File
 ) {
+  let imagem = "";
+
+  if (arquivo) {
+    imagem = await uploadImagem({ pasta: "usuarios", arquivo });
+  }
+
+  const { nome, email, senha } = dados;
+
   const emailNormalizado = email.toLowerCase().trim();
   const salt = bcrypt.genSaltSync(12);
   const hash = bcrypt.hashSync(senha, salt);
@@ -69,8 +80,14 @@ export async function criarUsuario(
 
 export async function atualizarUsuario(
   id: string,
-  dados: { nome?: string; email?: string; imagem?: string }
+  dados: { nome?: string; email?: string; imagem?: string; },
+  arquivo?: Express.Multer.File
 ) {
+
+  if (arquivo) {
+    dados.imagem = await uploadImagem({ pasta: "usuarios", arquivo });
+  }
+
   return prisma.usuario.update({
     where: { id },
     data: dados,
