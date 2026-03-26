@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
+import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 
-const prisma = new PrismaClient();
+;
 const router = Router();
 
 router.post("/", async (req, res) => {

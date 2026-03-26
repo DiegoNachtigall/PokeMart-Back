@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
+import { prisma } from "../lib/prisma";
 import bcrypt from "bcrypt";
 
-const prisma = new PrismaClient();
+;
 const router = Router();
 
 router.post("/recuperar", async (req, res) => {
@@ -40,24 +41,21 @@ router.post("/recuperar", async (req, res) => {
 router.post("/resetar", async (req, res) => {
     const { email, novaSenha, novaSenha2, codigo } = req.body;
 
-    if (!novaSenha || !novaSenha2) {
-        return res.status(400).json({ erro: "Informe nova senha" });
+    if (!novaSenha || !novaSenha2 || !email || !codigo) {
+        return res.status(400).json({ erro: "Informe todos os dados" });
     }
-
+    
     if (novaSenha !== novaSenha2) {
         return res.status(400).json({ erro: "As senhas informadas devem ser iguais" });
     }
-
-    if (!codigo) {
-        return res.status(400).json({ erro: "Insira o Código de Verificação" });
-    }
-
+    
+    try {
     const usuario = await prisma.usuario.findUnique({
         where: { email: email },
     });
 
     if (!usuario) {
-        res.status(400).json({ erro: "Código inválido" });
+        return res.status(400).json({ erro: "Código inválido" });
     }
 
     const tokens = await prisma.tokenResetSenha.findMany({
@@ -86,7 +84,6 @@ router.post("/resetar", async (req, res) => {
         return res.status(400).json({ erro: "Código inválido" });
     }
 
-    try {
 
         const salt = bcrypt.genSaltSync(12);
         const hash = bcrypt.hashSync(novaSenha, salt);

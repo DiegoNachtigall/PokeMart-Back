@@ -7,7 +7,8 @@ interface TokenI {
   userName: string
 }
 
-const prisma = new PrismaClient();
+import { prisma } from "../lib/prisma";
+;
 
 export async function verificaToken(req: Request | any, res: Response, next: NextFunction) {
 
